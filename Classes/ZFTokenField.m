@@ -140,7 +140,7 @@
     
     [self.tokenViews addObject:self.textField];
     [self addSubview:self.textField];
-    self.textField.frame = (CGRect) {0,0,50,[self.dataSource lineHeightForTokenInField:self]};
+    self.textField.frame = (CGRect) {15,0,350,[self.dataSource lineHeightForTokenInField:self]};
     
     [self invalidateIntrinsicContentSize];
     [self.textField setText:@""];
@@ -168,7 +168,7 @@
     if ([self.delegate respondsToSelector:@selector(tokenMarginInTokenInField:)]) {
         margin = [self.delegate tokenMarginInTokenInField:self];
     }
-    
+        
     for (UIView *token in self.tokenViews) {
         CGFloat width = MAX(CGRectGetWidth(self.bounds), CGRectGetWidth(token.frame));
         CGFloat tokenWidth = MIN(CGRectGetWidth(self.bounds), CGRectGetWidth(token.frame));
@@ -182,11 +182,12 @@
             UITextField *textField = (UITextField *)token;
             CGSize size = [textField sizeThatFits:(CGSize){CGRectGetWidth(self.bounds), lineHeight}];
             size.height = lineHeight;
-            size.width += 16; // margin right
             if (size.width > CGRectGetWidth(self.bounds)) {
                 size.width = CGRectGetWidth(self.bounds);
             }
             token.frame = (CGRect){{x, y}, size};
+            x += 15;
+            tokenWidth = CGRectGetWidth(self.bounds) - x;
         }
         
         block((CGRect){x, y, tokenWidth, token.frame.size.height});
